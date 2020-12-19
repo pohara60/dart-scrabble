@@ -10,8 +10,20 @@
             "type": "dart",
             "program": "bin/scrabble.dart",
             "args": [
-                        "compress","-s"
-                    ],
+                "compress",
+                "-s"
+            ],
+        },
+        {
+            "name": "lookup compress",
+            "request": "launch",
+            "type": "dart",
+            "program": "bin/scrabble.dart",
+            "args": [
+                "compress",
+                "-s",
+                "-u"
+            ],
         },
         {
             "name": "lookup",
@@ -19,8 +31,9 @@
             "type": "dart",
             "program": "bin/scrabble.dart",
             "args": [
-                        "compress","-s","-u"
-                    ],
-        }
+                "lookup",
+                "luz"
+            ],
+        },
     ]
 }

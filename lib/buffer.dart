@@ -9,7 +9,7 @@ class Buffer {
   final wordCharacters;
   final prefixCharacters;
   final specialCharacters;
-  final int quickLookupSize;
+  int quickLookupSize; // Not final because read on input
 
   // Character that indicates the last word with suffix s
   static const sCharacter = ' ';
@@ -65,26 +65,36 @@ class Buffer {
   void _initBuffer() {
     if (bufferString == '') {
       bufferString = buffer.toString();
-      var quickString = '';
-      quickString += bufferString[bufferIndex++];
-      quickString += bufferString[bufferIndex++];
-      // Read quickLookupSize
-      var readQuickLookupSize = int.parse(quickString);
-      assert(
-          readQuickLookupSize == quickLookupSize, 'Quick lookup size read ok');
-      // Initialize lookup table
-      var tableSize = quickLookupSize >= lookupCharacters.length
-          ? quickLookupSize
-          : quickLookupSize +
-              (lookupCharacters.length - quickLookupSize) *
-                  lookupCharacters2.length;
-      readTable = List<String>(tableSize);
+      _initTable();
     }
+  }
+
+  void _initTable() {
+    var quickString = '';
+    quickString += bufferString[bufferIndex++];
+    quickString += bufferString[bufferIndex++];
+    // Read quickLookupSize
+    quickLookupSize = int.parse(quickString);
+    // Initialize lookup table
+    var tableSize = quickLookupSize >= lookupCharacters.length
+        ? quickLookupSize
+        : quickLookupSize +
+            (lookupCharacters.length - quickLookupSize) *
+                lookupCharacters2.length;
+    readTable = List<String>(tableSize);
   }
 
   String getBuffer() {
     _initBuffer();
     return bufferString;
+  }
+
+  void setCompressedBuffer(String buffer) {
+    compressedBuffer = buffer;
+    var gzipBytes = base64.decode(compressedBuffer);
+    var stringBytes = GZipDecoder().decodeBytes(gzipBytes);
+    bufferString = utf8.decode(stringBytes);
+    _initTable();
   }
 
   String getCompressedBuffer(String buffer) {

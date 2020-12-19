@@ -18,8 +18,16 @@ class CompressBuilder implements Builder {
     var copy = inputId.changeExtension('.dart');
 
     // Write out the new asset.
-    await buildStep.writeAsString(
-        copy, '// Compressed from $inputId\n\nvar buffer = \'$buffer\';\n');
+    await buildStep.writeAsString(copy, '''// Compressed from $inputId
+part of scrabble;
+
+var lookupCharacters = \'${ScrabbleBuilder.lookupCharacters}\';
+var lookupCharacters2 = \'${ScrabbleBuilder.lookupCharacters2}\';
+var wordCharacters = \'${ScrabbleBuilder.wordCharacters}\';
+var prefixCharacters = \'${ScrabbleBuilder.prefixCharacters}\';
+var specialCharacters = \'${ScrabbleBuilder.specialCharacters}\';
+
+var buffer = \'$buffer\';''');
   }
 
   @override

@@ -7,7 +7,7 @@ import 'package:scrabble/scrabble.dart';
 const help = 'help';
 const program = 'scrabble';
 
-void main(List<String> arguments) async {
+void main(List<String> arguments) {
   exitCode = 0; // presume success
 
   var runner = CommandRunner('scrabble', 'Scrabble helper.')
@@ -15,7 +15,7 @@ void main(List<String> arguments) async {
     ..addCommand(CompressCommand())
     ..addCommand(AnagramCommand());
   try {
-    await runner.run(arguments);
+    runner.run(arguments);
   } on UsageException catch (e) {
     // Arguments exception
     print('$program: ${e.message}');
@@ -40,11 +40,11 @@ class LookupCommand extends Command {
   }
 
   @override
-  void run() async {
+  void run() {
     // Get and print lookup
     final scrabble = Scrabble();
     for (var word in argResults.rest) {
-      var matches = await scrabble.lookup(word, expand: argResults['expand']);
+      var matches = scrabble.lookup(word, expand: argResults['expand']);
       printMatches(scrabble, 'Lookup', word, matches);
     }
   }
@@ -79,7 +79,7 @@ class AnagramCommand extends Command {
   }
 
   @override
-  void run() async {
+  void run() {
     // Validate options
     var minLength = argResults['minLength'];
     if (minLength != null) {
@@ -93,7 +93,7 @@ class AnagramCommand extends Command {
     // Get and print anagrams
     final scrabble = Scrabble();
     for (var word in argResults.rest) {
-      var anagrams = await scrabble.anagram(word,
+      var anagrams = scrabble.anagram(word,
           expand: argResults['expand'],
           sort: argResults['sort'],
           minLength: int.parse(minLength));
@@ -144,7 +144,7 @@ class CompressCommand extends Command {
   }
 
   @override
-  void run() async {
+  void run() {
     // Validate options
     var quick = argResults['quickSize'];
     if (quick != null) {
@@ -157,7 +157,7 @@ class CompressCommand extends Command {
     }
     // Get and print Compress
     final scrabble = Scrabble();
-    await scrabble.compressScrabble(
+    scrabble.compressScrabble(
       statistics: argResults['statistics'],
       useLookup: argResults['useLookup'],
       verbose: argResults['verbose'],

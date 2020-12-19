@@ -1,9 +1,13 @@
+library scrabble;
+
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:scrabble/buffer.dart';
 import 'package:scrabble/scrabble_builder.dart';
+
+part 'sowpods.dart';
 
 class Scrabble {
   static const dictionaryFile = 'lib/sowpods.txt';
@@ -71,25 +75,29 @@ class Scrabble {
     '?': 0
   };
 
-  Future _doneInit;
-  Future get initializationDone => _doneInit;
-
   Scrabble() {
-    _doneInit = initScrabble();
+    initScrabble();
   }
 
-  Future<void> initScrabble() async {
+  void initScrabble() {
     if (dictionary.isNotEmpty) return;
 
-    final lines = utf8.decoder
-        .bind(File(dictionaryFile).openRead())
-        .transform(const LineSplitter());
-
-    //final stopwatch = Stopwatch()..start();
-    await for (var line in lines) {
-      dictionary.add(line);
+    var readBuffer = Buffer(lookupCharacters, lookupCharacters2, null,
+        wordCharacters, prefixCharacters, specialCharacters);
+    readBuffer.setCompressedBuffer(buffer);
+    String entry;
+    while ((entry = readBuffer.readEntry()) != '') {
+      dictionary.add(entry);
     }
-    // print('dictionary loaded in ${stopwatch.elapsed}');
+    // //final stopwatch = Stopwatch()..start();
+    // final lines = utf8.decoder
+    //     .bind(File(dictionaryFile).openRead())
+    //     .transform(const LineSplitter());
+
+    // await for (var line in lines) {
+    //   dictionary.add(line);
+    // }
+    // // print('dictionary loaded in ${stopwatch.elapsed}');
   }
 
   void compressScrabble(
@@ -105,8 +113,7 @@ class Scrabble {
         quickSize: quickSize);
   }
 
-  Future<Set<String>> lookup(String word, {bool expand = false}) async {
-    await _doneInit;
+  Set<String> lookup(String word, {bool expand = false}) {
     var matches = dictionaryLookup('', word);
     if (matches.isNotEmpty) {
       if (!expand) {
@@ -118,9 +125,8 @@ class Scrabble {
     return {};
   }
 
-  Future<Set<String>> anagram(String word,
-      {bool expand = false, bool sort = false, int minLength = 2}) async {
-    await _doneInit;
+  Set<String> anagram(String word,
+      {bool expand = false, bool sort = false, int minLength = 2}) {
     var anagrams = <String>{};
     anagramWord(anagrams, '', word, expand, minLength);
     if (sort) {
