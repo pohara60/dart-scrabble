@@ -88,9 +88,11 @@ class Buffer {
   }
 
   String getCompressedBuffer(String buffer) {
-    var stringBytes = utf8.encode(buffer);
-    var gzipBytes = GZipEncoder().encode(stringBytes);
-    var compressedBuffer = base64.encode(gzipBytes);
+    if (compressedBuffer == '') {
+      var stringBytes = utf8.encode(buffer);
+      var gzipBytes = GZipEncoder().encode(stringBytes);
+      compressedBuffer = base64.encode(gzipBytes);
+    }
     return compressedBuffer;
   }
 

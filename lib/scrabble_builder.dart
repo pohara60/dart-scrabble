@@ -35,7 +35,7 @@ class ScrabbleBuilder {
   static const lookupCharacters2 =
       wordCharacters + prefixCharacters + lookupCharacters;
 
-  void compressScrabble(String dictionary,
+  String compressScrabble(String dictionary,
       {bool statistics = false,
       bool verbose = false,
       bool useLookup = false,
@@ -56,6 +56,9 @@ class ScrabbleBuilder {
 
     // First pass computes lookup table, second pass uses it, third pass validates
     var lookupTable = <String, int>{};
+
+    // Return value
+    String compressedBuffer;
 
     for (var pass = 1; pass <= 3; pass++) {
       if (pass == 2 && !useLookup) {
@@ -193,7 +196,7 @@ class ScrabbleBuilder {
           stdout.writeln('Pass 3: buffer validated in ${stopwatch.elapsed}');
         }
         stopwatch.start();
-        var compressedBuffer = buffer.getCompressedBuffer(buffer.getBuffer());
+        compressedBuffer = buffer.getCompressedBuffer(buffer.getBuffer());
         if (statistics) {
           var length = compressedBuffer.length;
           stdout.writeln('GZIP buffer size $length');
@@ -201,6 +204,7 @@ class ScrabbleBuilder {
         }
       }
     }
+    return compressedBuffer;
   }
 
   int lookupValue(Map<String, int> map, String key) {

@@ -1,4 +1,5 @@
 import 'package:build/build.dart';
+import 'package:scrabble/scrabble_builder.dart';
 
 Builder compressBuilder(BuilderOptions options) => CompressBuilder();
 
@@ -8,16 +9,17 @@ Builder compressBuilder(BuilderOptions options) => CompressBuilder();
 class CompressBuilder implements Builder {
   @override
   Future build(BuildStep buildStep) async {
-    // Each [buildStep] has a single input.
     var inputId = buildStep.inputId;
+    var dictionary = await buildStep.readAsString(inputId);
 
-    // Create a new target [AssetId] based on the old one.
-    //var contents = await buildStep.readAsString(inputId);
+    var builder = ScrabbleBuilder();
+    var buffer = builder.compressScrabble(dictionary);
 
     var copy = inputId.changeExtension('.dart');
 
     // Write out the new asset.
-    await buildStep.writeAsString(copy, '// Compressed from $inputId\n');
+    await buildStep.writeAsString(
+        copy, '// Compressed from $inputId\n\nvar buffer = \'$buffer\';\n');
   }
 
   @override
