@@ -1,11 +1,9 @@
 import 'package:build/build.dart';
-import 'package:scrabble/scrabble_builder.dart';
+import 'scrabble_builder.dart';
 
 Builder compressBuilder(BuilderOptions options) => CompressBuilder();
 
-/// Compresses contents of a `txt` files into `name.dart`.
-///
-/// A header row is added pointing to the input file name.
+/// Compresses contents of a dictionary file `name.txt` into `name.dart`.
 class CompressBuilder implements Builder {
   @override
   Future build(BuildStep buildStep) async {
@@ -21,13 +19,21 @@ class CompressBuilder implements Builder {
     await buildStep.writeAsString(copy, '''// Compressed from $inputId
 part of scrabble;
 
-var lookupCharacters = \'${ScrabbleBuilder.lookupCharacters}\';
-var lookupCharacters2 = \'${ScrabbleBuilder.lookupCharacters2}\';
-var wordCharacters = \'${ScrabbleBuilder.wordCharacters}\';
-var prefixCharacters = \'${ScrabbleBuilder.prefixCharacters}\';
-var specialCharacters = \'${ScrabbleBuilder.specialCharacters}\';
+// Word characters
+var _wordCharacters = \'${ScrabbleBuilder.wordCharacters}\';
+// Characters that specify prefix length (0 to 15)
+var _prefixCharacters = \'${ScrabbleBuilder.prefixCharacters}\';
+// Characters that are used as indexes into the lookup array
+// Some number (default 20) are used as a one character index
+// Others are used as first character of a two character index
+var _lookupCharacters = \'${ScrabbleBuilder.lookupCharacters}\';
+// Characters that are used as second character of a two character index
+var _lookupCharacters2 = \'${ScrabbleBuilder.lookupCharacters2}\';
+// Other special characters that can appear in a string represented as one character
+// Omit \, " and ' for Javascript and \$ for Dart
+var _specialCharacters = \'${ScrabbleBuilder.specialCharacters}\';
 
-var buffer = \'$buffer\';''');
+var _buffer = \'$buffer\';''');
   }
 
   @override

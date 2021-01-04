@@ -7,31 +7,30 @@ import 'package:test/test.dart';
 void main() {
   group('API', () {
     final scrabble = Scrabble();
-    test('lookup abba = {abba}', () async {
-      expect(await scrabble.lookup('abba'), {'abba'});
+    test('lookup abba = {abba}', () {
+      expect(scrabble.lookup('abba'), {'abba'});
     });
-    test('lookup abc = {}', () async {
-      expect(await scrabble.lookup('abc'), <String>{});
+    test('lookup abc = {}', () {
+      expect(scrabble.lookup('abc'), <String>{});
     });
-    test('lookup expand ab? = {aba, abb, abo, abs, aby}', () async {
-      expect(await scrabble.lookup('ab?', expand: true),
+    test('lookup expand ab? = {aba, abb, abo, abs, aby}', () {
+      expect(scrabble.lookup('ab?', expand: true),
           <String>{'aba', 'abb', 'abo', 'abs', 'aby'});
     });
-    test('anagram zulu = {zulu, luz, ulu}', () async {
-      expect(await scrabble.anagram('zulu'), {'zulu', 'luz', 'ulu'});
+    test('anagram zulu = {zulu, luz, ulu}', () {
+      expect(scrabble.anagram('zulu'), {'zulu', 'luz', 'ulu'});
     });
-    test('anagram sort zulu = {luz, ulu, zulu}', () async {
-      expect(await scrabble.anagram('zulu'), {'luz', 'ulu', 'zulu'});
+    test('anagram sort zulu = {luz, ulu, zulu}', () {
+      expect(scrabble.anagram('zulu'), {'luz', 'ulu', 'zulu'});
     });
-    test('anagram ?bt', () async {
-      expect(await scrabble.anagram('?bt'),
-          {'?b', '?t', 'b?', 'b?t', 't?', 't?b'});
+    test('anagram ?bt', () {
+      expect(scrabble.anagram('?bt'), {'?b', '?t', 'b?', 'b?t', 't?', 't?b'});
     });
-    test('anagram minLength 3 ?bt', () async {
-      expect(await scrabble.anagram('?bt', minLength: 3), {'b?t', 't?b'});
+    test('anagram minLength 3 ?bt', () {
+      expect(scrabble.anagram('?bt', minLength: 3), {'b?t', 't?b'});
     });
-    test('anagram expand ?bt', () async {
-      expect(await scrabble.anagram('?bt', expand: true), {
+    test('anagram expand ?bt', () {
+      expect(scrabble.anagram('?bt', expand: true), {
         'ab',
         'ob',
         'at',
@@ -57,15 +56,15 @@ void main() {
         'tub'
       });
     });
-    test('anagram expand minLength 3 ?bt', () async {
-      expect(await scrabble.anagram('?bt', expand: true, minLength: 3),
+    test('anagram expand minLength 3 ?bt', () {
+      expect(scrabble.anagram('?bt', expand: true, minLength: 3),
           {'bat', 'bet', 'bit', 'bot', 'but', 'tab', 'tub'});
     });
-    test('anagram zz = {}', () async {
-      expect(await scrabble.anagram('zz'), <Set>{});
+    test('anagram zz = {}', () {
+      expect(scrabble.anagram('zz'), <Set>{});
     });
-    test('score zulu = 13', () async {
-      expect(await scrabble.score('zulu'), 13);
+    test('score zulu = 13', () {
+      expect(scrabble.score('zulu'), 13);
     });
   });
 

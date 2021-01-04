@@ -35,5 +35,15 @@
                 "luz"
             ],
         },
+        {
+            "name": "example",
+            "request": "launch",
+            "type": "dart",
+            "program": "example/example.dart",
+            "args": [
+                "abba",
+                "luz"
+            ],
+        },
     ]
 }

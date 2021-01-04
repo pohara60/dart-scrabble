@@ -1,25 +1,22 @@
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:scrabble/buffer.dart';
+import './src/buffer.dart';
 
+/// Compress Scrabble word file into a compressed readable string
+///
+/// The steps in the compression are as follows:
+/// 1. Prefix encoding
+///    The current word is compared with the previous word
+///    The word is encoded as the length of the common prefix followed by the suffix
+///    For example: use, used, useful, usefully are encoded as 0use, 3d, 3ful, 6ly
+/// 2. Plural optimization
+///    Words that are the previous word with suffix 's' are represented by a special flag character
+/// 3. Dictionary encoding - optional, minimal effect
+///    Every word (with its prefix length) is added to a dictionary with the count of occurrences
+///    The dictionary is sorted by occurrence count, and the most valuable are used in a lookup array
+/// 4. GZIP and Base64 of compressed buffer
 class ScrabbleBuilder {
-  // Compress Scrabble word file into a compressed readable string
-  //
-  // The steps in the compression are as follows:
-  // 1. Prefix encoding
-  //    The current word is compared with the previous word
-  //    The word is encoded as the length of the common prefix followed by the suffix
-  //    For example: use, used, useful, usefully are encoded as 0use, 3d, 3ful, 6ly
-  // 2. Plural optimization
-  //    Words that are the previous word with suffix 's' are represented by a special flag character
-  // 3. Dictionary encoding - optional, minimal effect
-  //    Every word (with its prefix length) is added to a dictionary with the count of occurrences
-  //    The dictionary is sorted by occurrence count, and the most valuable are usied in a lookup array
-  // 4. GZIP and Base64 of compressed buffer
-  //
-
   // Word characters
   static const wordCharacters = 'abcdefghijklmnopqrstuvwxyz';
   // Characters that specify prefix length (0 to 15)
@@ -35,6 +32,7 @@ class ScrabbleBuilder {
   static const lookupCharacters2 =
       wordCharacters + prefixCharacters + lookupCharacters;
 
+  /// Compress dictionary file into a string.
   String compressScrabble(String dictionary,
       {bool statistics = false,
       bool verbose = false,
@@ -151,13 +149,13 @@ class ScrabbleBuilder {
         var saving = 0;
         if (useLookup) {
           var sortedKeys = entries.keys.toList(growable: false)
-            ..sort((k1, k2) =>
-                -lookupValue(entries, k1).compareTo(lookupValue(entries, k2)));
+            ..sort((k1, k2) => -_lookupValue(entries, k1)
+                .compareTo(_lookupValue(entries, k2)));
           var index = 0;
           for (var key in sortedKeys) {
             // Is it worth adding entry to lookup table?
             var count = entries[key];
-            var value = lookupValue(entries, key);
+            var value = _lookupValue(entries, key);
             var lookupIndex = (index < quickLookupSize ? 1 : 2);
             var cost = lookupIndex * entries[key] + lookupIndex + 1;
             if (cost >= value) continue;
@@ -207,7 +205,7 @@ class ScrabbleBuilder {
     return compressedBuffer;
   }
 
-  int lookupValue(Map<String, int> map, String key) {
+  int _lookupValue(Map<String, int> map, String key) {
     return key.length * map[key];
   }
 }
