@@ -12,7 +12,7 @@ void main(List<String> arguments) {
 
   var runner = CommandRunner('scrabble', 'Scrabble helper.')
     ..addCommand(LookupCommand())
-    ..addCommand(CompressCommand())
+    // ..addCommand(CompressCommand())
     ..addCommand(AnagramCommand());
   try {
     runner.run(arguments);
@@ -110,58 +110,58 @@ void printMatches(
   }
 }
 
-class CompressCommand extends Command {
-  @override
-  final name = 'compress';
-  @override
-  final description = 'Compress dictionary.';
+// class CompressCommand extends Command {
+//   @override
+//   final name = 'compress';
+//   @override
+//   final description = 'Compress dictionary.';
 
-  CompressCommand() {
-    argParser.addFlag(
-      'statistics',
-      abbr: 's',
-      negatable: false,
-      help: 'Output statistics instead of compressed dictionary.',
-    );
-    argParser.addFlag(
-      'useLookup',
-      abbr: 'u',
-      negatable: false,
-      help: 'Use dictionary encoding, minimal improvement.',
-    );
-    argParser.addFlag(
-      'verbose',
-      abbr: 'v',
-      negatable: false,
-      help: 'Output verbose statistics.',
-    );
-    argParser.addOption(
-      'quickSize',
-      abbr: 'q',
-      help: 'Quick lookup size, defaults to maximum possible.',
-      valueHelp: 'Integer length',
-    );
-  }
+//   CompressCommand() {
+//     argParser.addFlag(
+//       'statistics',
+//       abbr: 's',
+//       negatable: false,
+//       help: 'Output statistics instead of compressed dictionary.',
+//     );
+//     argParser.addFlag(
+//       'useLookup',
+//       abbr: 'u',
+//       negatable: false,
+//       help: 'Use dictionary encoding, minimal improvement.',
+//     );
+//     argParser.addFlag(
+//       'verbose',
+//       abbr: 'v',
+//       negatable: false,
+//       help: 'Output verbose statistics.',
+//     );
+//     argParser.addOption(
+//       'quickSize',
+//       abbr: 'q',
+//       help: 'Quick lookup size, defaults to maximum possible.',
+//       valueHelp: 'Integer length',
+//     );
+//   }
 
-  @override
-  void run() {
-    // Validate options
-    var quick = argResults['quickSize'];
-    if (quick != null) {
-      if (int.tryParse(quick) == null || int.parse(quick) < 1) {
-        print('--quickSize value must be a positive integer.');
-        exit(64);
-      }
-    } else {
-      quick = '-1';
-    }
-    // Get and print Compress
-    final scrabble = Scrabble();
-    scrabble.compressScrabble(
-      statistics: argResults['statistics'],
-      useLookup: argResults['useLookup'],
-      verbose: argResults['verbose'],
-      quickSize: int.parse(quick),
-    );
-  }
-}
+//   @override
+//   void run() {
+//     // Validate options
+//     var quick = argResults['quickSize'];
+//     if (quick != null) {
+//       if (int.tryParse(quick) == null || int.parse(quick) < 1) {
+//         print('--quickSize value must be a positive integer.');
+//         exit(64);
+//       }
+//     } else {
+//       quick = '-1';
+//     }
+//     // Get and print Compress
+//     final scrabble = Scrabble();
+//     scrabble.compressScrabble(
+//       statistics: argResults['statistics'],
+//       useLookup: argResults['useLookup'],
+//       verbose: argResults['verbose'],
+//       quickSize: int.parse(quick),
+//     );
+//   }
+// }

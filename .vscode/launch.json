@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Web example",
+            "type": "dart",
+            "request": "launch",
+            "program": "web",
+            "cwd": "example"
+        },
+        {
+            "name": "Dart: Run all Tests",
+            "type": "dart",
+            "request": "launch",
+            "program": "./test/"
+        },
+        {
             "name": "compress",
             "request": "launch",
             "type": "dart",
@@ -36,10 +49,10 @@
             ],
         },
         {
-            "name": "example",
+            "name": "Command line example",
             "request": "launch",
             "type": "dart",
-            "program": "example/example.dart",
+            "program": "example/command_line.dart",
             "args": [
                 "abba",
                 "luz"

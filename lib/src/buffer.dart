@@ -12,6 +12,7 @@ class Buffer {
   final String _lookupCharacters2;
   final _wordCharacters;
   final _prefixCharacters;
+  // ignore: unused_field
   final _specialCharacters;
   int _quickLookupSize; // Not final because read on input
 

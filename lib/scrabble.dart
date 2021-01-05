@@ -5,17 +5,16 @@
 library scrabble;
 
 import 'dart:collection';
-import 'dart:io';
 
 import './src/buffer.dart';
-import './scrabble_builder.dart';
+//import './scrabble_builder.dart';
 
 // Part file has compressed dictionary buffer
 part 'sowpods.dart';
 
 /// Provide access to the Scrabble API.
 class Scrabble {
-  static const _dictionaryFile = 'lib/sowpods.txt';
+  // static const _dictionaryFile = 'lib/sowpods.txt';
   static final _dictionary = <String>{};
 
   static const List<String> _alphabet = [
@@ -138,20 +137,20 @@ class Scrabble {
     return total;
   }
 
-  /// Development-time utility to test compression strategies.
-  void compressScrabble(
-      {bool statistics = false,
-      bool verbose = false,
-      bool useLookup = false,
-      int quickSize = -1,
-      String fileName = _dictionaryFile}) {
-    var builder = ScrabbleBuilder();
-    builder.compressScrabble(File(fileName).readAsStringSync(),
-        statistics: statistics,
-        verbose: verbose,
-        useLookup: useLookup,
-        quickSize: quickSize);
-  }
+  // /// Development-time utility to test compression strategies.
+  // void compressScrabble(
+  //     {bool statistics = false,
+  //     bool verbose = false,
+  //     bool useLookup = false,
+  //     int quickSize = -1,
+  //     String fileName = _dictionaryFile}) {
+  //   var builder = ScrabbleBuilder();
+  //   builder.compressScrabble(File(fileName).readAsStringSync(),
+  //       statistics: statistics,
+  //       verbose: verbose,
+  //       useLookup: useLookup,
+  //       quickSize: quickSize);
+  // }
 
   void _anagramWord(Set<String> anagrams, String start, String rest,
       bool expand, int minLength) {
