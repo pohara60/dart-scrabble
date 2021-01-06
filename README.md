@@ -49,7 +49,7 @@ https://en.wikipedia.org/wiki/Collins_Scrabble_Words).
 
 ### Dart Example
 
-See `example/command_line.dart`
+See `example/example.dart`
 
 ```dart
 import 'package:scrabble/scrabble.dart';

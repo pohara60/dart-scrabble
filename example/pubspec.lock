@@ -340,10 +340,10 @@ packages:
   scrabble:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.0"
+      name: scrabble
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   scratch_space:
     dependency: transitive
     description:

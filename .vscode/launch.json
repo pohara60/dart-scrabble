@@ -52,7 +52,7 @@
             "name": "Command line example",
             "request": "launch",
             "type": "dart",
-            "program": "example/command_line.dart",
+            "program": "example/example.dart",
             "args": [
                 "abba",
                 "luz"
