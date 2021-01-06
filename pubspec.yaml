@@ -1,6 +1,6 @@
 name: scrabble
 description: An API and command line tool for finding and scoring legal Scrabble words
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/pohara60/dart-scrabble
 
 environment:
