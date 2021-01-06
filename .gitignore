@@ -9,6 +9,4 @@ build/
 doc/api/
 
 # Generated file
-lib/sowpods.dart
-.vscode/launch.json
 example/debug.log
