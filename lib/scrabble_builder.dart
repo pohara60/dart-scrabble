@@ -1,9 +1,12 @@
+/// Compress Scrabble word file into a compressed readable string.
+///
+/// Uses the Dart Build package to compress the file at package development time.
 import 'dart:convert';
 import 'dart:io';
 
 import './src/buffer.dart';
 
-/// Compress Scrabble word file into a compressed readable string
+/// Compress Scrabble word file into a compressed readable string.
 ///
 /// The steps in the compression are as follows:
 /// 1. Prefix encoding

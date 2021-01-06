@@ -7,15 +7,16 @@ Builder compressBuilder(BuilderOptions options) => CompressBuilder();
 class CompressBuilder implements Builder {
   @override
   Future build(BuildStep buildStep) async {
+    // Read the dictionary
     var inputId = buildStep.inputId;
     var dictionary = await buildStep.readAsString(inputId);
 
+    // Compress the dictionary into a string
     var builder = ScrabbleBuilder();
     var buffer = builder.compressScrabble(dictionary);
 
+    // Write the dictionary string as Dart source.
     var copy = inputId.changeExtension('.dart');
-
-    // Write out the new asset.
     await buildStep.writeAsString(copy, '''// Compressed from $inputId
 part of scrabble;
 

@@ -1,12 +1,3 @@
-
-Todo
-* pub publish
-  * check versions tab
-* web version
-
-
-
-
 # Scrabble Library for Dart
 
 ## Introduction
@@ -17,7 +8,7 @@ https://en.wikipedia.org/wiki/Collins_Scrabble_Words).
 
 * The API includes methods to:
   * **lookup** legal words, perhaps includng the wildcard '?'.
-  * get all legal **anagram**s of a string, perhaps includng the wildcard '?'.
+  * get all legal **anagram**s of a string, perhaps including the wildcard '?'.
   * get the **score** for a word.
 * The command line tool provides access to the API from the command line.
 
@@ -58,7 +49,7 @@ https://en.wikipedia.org/wiki/Collins_Scrabble_Words).
 
 ### Dart Example
 
-See `example/example.dart`
+See `example/command_line.dart`
 
 ```dart
 import 'package:scrabble/scrabble.dart';
@@ -107,6 +98,13 @@ Score abs = 5
 Score aby = 8
 ```
 
+### Web Example
+
+See `example/web/web.dart`.
+
+This is a version of the Scrabble example at https://dart.dev/tutorials/web/low-level-html/add-elements#moving-elements, 
+modified to use the Scrabble package.
+
 
 ## Package Development
 
@@ -118,6 +116,4 @@ compressed string buffer at package development time, using the Dart
 ```bash
 dart run build_runner build
 ```
-The scrabble command option compress was used to test various compression 
-strategies, it just reports compression statistics, i.e. it does not generate
-any artifacts.
+This approach was adopted to provide web client-side access to the dictionary.
