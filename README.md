@@ -155,7 +155,7 @@ This documentation is not needed to use the package, just for its development.
 
 The package converts the cleartext dictionary file (lib/sowpods.txt) into a
 compressed string buffer at package development time, using the Dart
-**builder_runner** package and the command:
+**build_runner** package and the command:
 
 ```bash
 dart run build_runner build
