@@ -49,6 +49,16 @@
             ],
         },
         {
+            "name": "error",
+            "request": "launch",
+            "type": "dart",
+            "program": "bin/scrabble.dart",
+            "args": [
+                "error",
+                "luz"
+            ],
+        },
+        {
             "name": "Command line example",
             "request": "launch",
             "type": "dart",

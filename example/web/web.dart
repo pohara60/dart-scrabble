@@ -14,43 +14,43 @@ import 'package:scrabble/scrabble.dart';
 // the ratio is off.
 
 List<ButtonElement> buttons = [];
-Element letterpile;
-Element result;
-ButtonElement clearButton;
-Element lettersValue;
+late Element letterpile;
+late Element result;
+late ButtonElement clearButton;
+late Element lettersValue;
 int wordvalue = 0;
 
-Scrabble scrabble;
-Element scrabbleValue;
-ButtonElement anagramButton;
-Element anagramList;
+late Scrabble scrabble;
+late Element scrabbleValue;
+late ButtonElement anagramButton;
+late Element anagramList;
 
 void main() {
   scrabble = Scrabble();
-  letterpile = querySelector('#letterpile');
-  result = querySelector('#result');
-  lettersValue = querySelector('#lettersValue');
-  scrabbleValue = querySelector('#scrabbleValue');
+  letterpile = querySelector('#letterpile')!;
+  result = querySelector('#result')!;
+  lettersValue = querySelector('#lettersValue')!;
+  scrabbleValue = querySelector('#scrabbleValue')!;
 
-  clearButton = querySelector('#clearButton');
+  clearButton = querySelector('#clearButton')! as ButtonElement;
   clearButton.onClick.listen(newletters);
 
-  anagramButton = querySelector('#anagramButton');
+  anagramButton = querySelector('#anagramButton')! as ButtonElement;
   anagramButton.onClick.listen(getAnagrams);
-  anagramList = querySelector('#anagrams');
+  anagramList = querySelector('#anagrams')!;
 
   generateNewLetters();
 }
 
 void moveLetter(Event e) {
-  Element letter = e.target;
+  var letter = e.target! as Element;
   if (letter.parent == letterpile) {
     result.children.add(letter);
-    wordvalue += Scrabble.scrabbleValues[letter.text];
+    wordvalue += Scrabble.scrabbleValues[letter.text]!;
     lettersValue.text = '$wordvalue';
   } else {
     letterpile.children.add(letter);
-    wordvalue -= Scrabble.scrabbleValues[letter.text];
+    wordvalue -= Scrabble.scrabbleValues[letter.text]!;
     lettersValue.text = '$wordvalue';
   }
 
@@ -95,6 +95,7 @@ void getAnagrams(Event e) {
   for (var anagram in anagrams) {
     var link = AnchorElement();
     link.text = anagram + ' (' + scrabble.score(anagram).toString() + ')';
+    // ignore: unsafe_html
     link.href =
         'https://www.collinsdictionary.com/dictionary/english/' + anagram;
     link.target = '_blank';
@@ -107,7 +108,7 @@ void getAnagrams(Event e) {
 String getWord(Element result) {
   var word = '';
   for (var letter in result.children) {
-    word += letter.text;
+    word += letter.text!;
   }
   return word;
 }

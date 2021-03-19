@@ -14,7 +14,7 @@ class Buffer {
   final _prefixCharacters;
   // ignore: unused_field
   final _specialCharacters;
-  int _quickLookupSize; // Not final because read on input
+  int? _quickLookupSize; // Not final because read on input
 
   // Character that indicates the last word with suffix s
   static const _sCharacter = ' ';
@@ -30,7 +30,7 @@ class Buffer {
       var index2 = index - _quickLookupSize;
       var chIndex1 = index2 ~/ _lookupCharacters2.length;
       var chIndex2 = index2 - chIndex1 * _lookupCharacters2.length;
-      return _lookupCharacters[_quickLookupSize + chIndex1] +
+      return _lookupCharacters[_quickLookupSize! + chIndex1 as int] +
           _lookupCharacters2[chIndex2];
     }
   }
@@ -63,7 +63,7 @@ class Buffer {
   var _bufferString = '';
   var _bufferIndex = 0;
   String _lastEntry = '';
-  List<String> _readTable;
+  late List<String?> _readTable;
   String _compressedBuffer = '';
 
   void _initBuffer() {
@@ -80,12 +80,12 @@ class Buffer {
     // Read quickLookupSize
     _quickLookupSize = int.parse(quickString);
     // Initialize lookup table
-    var tableSize = _quickLookupSize >= _lookupCharacters.length
+    var tableSize = _quickLookupSize! >= _lookupCharacters.length
         ? _quickLookupSize
-        : _quickLookupSize +
-            (_lookupCharacters.length - _quickLookupSize) *
+        : _quickLookupSize! +
+            (_lookupCharacters.length - _quickLookupSize!) *
                 _lookupCharacters2.length;
-    _readTable = List<String>(tableSize);
+    _readTable = List.filled(tableSize!, null);
   }
 
   String getBuffer() {
@@ -104,7 +104,7 @@ class Buffer {
   String getCompressedBuffer(String buffer) {
     if (_compressedBuffer == '') {
       var stringBytes = utf8.encode(buffer);
-      var gzipBytes = GZipEncoder().encode(stringBytes);
+      var gzipBytes = GZipEncoder().encode(stringBytes)!;
       _compressedBuffer = base64.encode(gzipBytes);
     }
     return _compressedBuffer;
@@ -140,7 +140,7 @@ class Buffer {
         _bufferIndex--;
         var index = readIndex();
         assert(index < _readTable.length, 'Index is within table');
-        entry = _readTable[index];
+        entry = _readTable[index]!;
         prefixLength = _prefixCharacters.indexOf(entry[0]);
       }
       var prefix = _lastEntry.substring(0, prefixLength);
@@ -155,11 +155,11 @@ class Buffer {
     var char = _bufferString[_bufferIndex++];
     var index = _lookupCharacters.indexOf(char);
     assert(index >= 0);
-    if (index >= _quickLookupSize) {
+    if (index >= _quickLookupSize!) {
       assert(_bufferIndex < _bufferString.length);
       char = _bufferString[_bufferIndex++];
-      index = _quickLookupSize +
-          (index - _quickLookupSize) * _lookupCharacters2.length +
+      index = _quickLookupSize! +
+          (index - _quickLookupSize!) * _lookupCharacters2.length +
           _lookupCharacters2.indexOf(char);
     }
     return index;

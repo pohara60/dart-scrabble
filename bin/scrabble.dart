@@ -7,7 +7,7 @@ import 'package:scrabble/scrabble.dart';
 const help = 'help';
 const program = 'scrabble';
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   exitCode = 0; // presume success
 
   var runner = CommandRunner('scrabble', 'Scrabble helper.')
@@ -15,12 +15,14 @@ void main(List<String> arguments) {
     // ..addCommand(CompressCommand())
     ..addCommand(AnagramCommand());
   try {
-    runner.run(arguments);
+    await runner.run(arguments);
   } on UsageException catch (e) {
     // Arguments exception
     print('$program: ${e.message}');
     print('');
     print('${runner.usage}');
+  } catch (e) {
+    print('$program: $e');
   }
 }
 
@@ -43,8 +45,9 @@ class LookupCommand extends Command {
   void run() {
     // Get and print lookup
     final scrabble = Scrabble();
-    for (var word in argResults.rest) {
-      var matches = scrabble.lookup(word, expand: argResults['expand']);
+    for (var word in argResults!.rest) {
+      var matches =
+          scrabble.lookup(word, expand: argResults!['expand'] ?? false);
       printMatches(scrabble, 'Lookup', word, matches);
     }
   }
@@ -81,7 +84,7 @@ class AnagramCommand extends Command {
   @override
   void run() {
     // Validate options
-    var minLength = argResults['minLength'];
+    var minLength = argResults!['minLength'];
     if (minLength != null) {
       if (int.tryParse(minLength) == null || int.parse(minLength) < 1) {
         print('--minLength value must be a positive integer.');
@@ -92,10 +95,10 @@ class AnagramCommand extends Command {
     }
     // Get and print anagrams
     final scrabble = Scrabble();
-    for (var word in argResults.rest) {
+    for (var word in argResults!.rest) {
       var anagrams = scrabble.anagram(word,
-          expand: argResults['expand'],
-          sort: argResults['sort'],
+          expand: argResults!['expand'] ?? false,
+          sort: argResults!['sort'] ?? false,
           minLength: int.parse(minLength));
       printMatches(scrabble, 'Anagram', word, anagrams);
     }

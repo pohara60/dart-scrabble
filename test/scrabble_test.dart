@@ -119,7 +119,7 @@ void test_command(String command, List<String> output) {
     await process.stderr.pipe(stderr);
     var code = await process.exitCode;
     if (code != 0) {
-      print('exit code: ${code}');
+      print('exit code: $code');
     }
   });
 }

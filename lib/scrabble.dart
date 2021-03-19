@@ -49,7 +49,7 @@ class Scrabble {
   static const String scrabbleLetters =
       'aaaaaaaaabbccddddeeeeeeeeeeeeffggghhiiiiiiiiijkllllmmnnnnnnooooooooppqrrrrrrssssttttttuuuuvvwwxyyz??';
 
-  static const Map scrabbleValues = {
+  static const Map<String, int> scrabbleValues = {
     'a': 1,
     'e': 1,
     'i': 1,
@@ -132,7 +132,7 @@ class Scrabble {
   int score(String word) {
     var total = 0;
     for (var i = 0; i < word.length; i++) {
-      total += scrabbleValues[word[i]];
+      total += scrabbleValues[word[i]] ?? 0;
     }
     return total;
   }

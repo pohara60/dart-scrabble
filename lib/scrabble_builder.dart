@@ -39,7 +39,7 @@ class ScrabbleBuilder {
       wordCharacters + prefixCharacters + lookupCharacters;
 
   /// Compress dictionary file into a string.
-  String compressScrabble(String dictionary,
+  String? compressScrabble(String dictionary,
       {bool statistics = false,
       bool verbose = false,
       bool useLookup = false,
@@ -62,7 +62,7 @@ class ScrabbleBuilder {
     var lookupTable = <String, int>{};
 
     // Return value
-    String compressedBuffer;
+    String? compressedBuffer;
 
     for (var pass = 1; pass <= 3; pass++) {
       if (pass == 2 && !useLookup) {
@@ -115,13 +115,13 @@ class ScrabbleBuilder {
             var entry = buffer.getEntry(prefixLen, suffix);
             if (useLookup && pass == 1) {
               if (entries.containsKey(entry)) {
-                entries[entry] += 1;
+                entries[entry] = entries[entry]! + 1;
               } else {
                 entries[entry] = 0;
               }
             } else {
               if (useLookup && lookupTable.containsKey(entry)) {
-                var index = lookupTable[entry];
+                var index = lookupTable[entry]!;
                 if (index >= 0) {
                   // First reference so write entry followed by table insert
                   buffer.writeEntry(entry);
@@ -163,7 +163,7 @@ class ScrabbleBuilder {
             var count = entries[key];
             var value = _lookupValue(entries, key);
             var lookupIndex = (index < quickLookupSize ? 1 : 2);
-            var cost = lookupIndex * entries[key] + lookupIndex + 1;
+            var cost = lookupIndex * entries[key]! + lookupIndex + 1;
             if (cost >= value) continue;
 
             // Add entry to lookup table
@@ -212,6 +212,6 @@ class ScrabbleBuilder {
   }
 
   int _lookupValue(Map<String, int> map, String key) {
-    return key.length * map[key];
+    return key.length * map[key]!;
   }
 }
